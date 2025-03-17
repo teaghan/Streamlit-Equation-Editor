@@ -1,0 +1,20 @@
+# Python build artifacts
+*.py[cod]
+__pycache__/
+*.so
+build/
+dist/
+*.egg-info/
+
+# IDE settings
+.idea/
+.vscode/
+*.swp
+
+# Environment
+venv/
+env/
+.env
+
+# Node modules (if you have any frontend components)
+node_modules/
