@@ -8,12 +8,12 @@ long_description = (this_directory / "README.md").read_text()
 setuptools.setup(
     name="streamlit-equation-editor",
     version="0.1.0",
-    author="Your Name",
-    author_email="your.email@example.com",
+    author="Teaghan O'Briain",
+    author_email="obriaintb@gmail.com",
     description="A WYSIWYG equation editor component for Streamlit",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/streamlit-equation-editor",
+    url="https://github.com/teaghan/Streamlit-Equation-Editor",
     packages=setuptools.find_packages(),
     include_package_data=True,
     classifiers=[
