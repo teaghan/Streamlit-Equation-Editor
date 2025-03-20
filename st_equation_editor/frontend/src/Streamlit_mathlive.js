@@ -43,12 +43,9 @@ class Streamlit_mathlive extends StreamlitComponentBase {
   }
   
   handle_check = () => {
-    this.setState(
-      {upright:!this.state.upright})
-    this.setState(
-      {tex: this.state.upright ? "\\mathrm{" + this.state.value + "}": this.state.value , mathml: window.MathJax.tex2mml(this.state.upright ? "\\mathrm{" + this.state.value + "}" : this.state.value ,{em: 14, ex: 7, display: true})},
-      () => Streamlit.setComponentValue([this.state.tex,this.state.mathml])
-    )
+    if (this.props.args["check"]) {
+      this.setState({value: this.props.args["check"]})
+    }
   }
 
   copyLatexToClipboard = () => {
@@ -57,43 +54,25 @@ class Streamlit_mathlive extends StreamlitComponentBase {
   }
   
   render() {
-    if (this.props.args['edit']) {
-      return (
-        <div className='App'>
-          <button 
-            className="btn btn-primary copy-button"
-            onClick={this.copyLatexToClipboard}
-            title="Copy LaTeX"
-            style={{ 
-              marginBottom: '1rem',
-              fontSize: '1rem',
-              padding: '0.5rem 1.5rem',
-              backgroundColor: this.props.theme.primaryColor,
-              border: 'none'
+    return (
+      <div>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <math-field 
+            ref={this.mf} 
+            onInput={(evt) => {
+              this.change_val(evt)
+            }}
+            style={{
+              '--ML__keyboard-toggle-visibility': 'hidden',
+              '--ML__hamburger-menu-visibility': 'hidden'
             }}
           >
-            📋 Copy Equation
-          </button>
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <math-field 
-              ref={this.mf} 
-              onInput={(evt) => {
-                this.change_val(evt)
-              }}
-              style={{
-                '--ML__keyboard-toggle-visibility': 'hidden',
-                '--ML__hamburger-menu-visibility': 'hidden'
-              }}
-            >
-              {this.state.value}
-            </math-field>
-          </div>
-          <break/>
+            {this.state.value}
+          </math-field>
         </div>
-      )
-    } else {
-      return (<div></div>)
-    }
+        <break/>
+      </div>
+    )
   }
 }
 
