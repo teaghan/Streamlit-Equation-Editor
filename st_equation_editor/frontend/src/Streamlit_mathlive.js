@@ -43,36 +43,38 @@ class Streamlit_mathlive extends StreamlitComponentBase {
   }
   
   handle_check = () => {
-    if (this.props.args["check"]) {
-      this.setState({value: this.props.args["check"]})
-    }
-  }
-
-  copyLatexToClipboard = () => {
-    const latexValue = this.state.tex
-    navigator.clipboard.writeText(latexValue)
+    this.setState(
+      {upright:!this.state.upright})
+    this.setState(
+      {tex: this.state.upright ? "\\mathrm{" + this.state.value + "}": this.state.value , mathml: window.MathJax.tex2mml(this.state.upright ? "\\mathrm{" + this.state.value + "}" : this.state.value ,{em: 14, ex: 7, display: true})},
+      () => Streamlit.setComponentValue([this.state.tex,this.state.mathml])
+    )
   }
   
   render() {
-    return (
-      <div>
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-          <math-field 
-            ref={this.mf} 
-            onInput={(evt) => {
-              this.change_val(evt)
-            }}
-            style={{
-              '--ML__keyboard-toggle-visibility': 'hidden',
-              '--ML__hamburger-menu-visibility': 'hidden'
-            }}
-          >
-            {this.state.value}
-          </math-field>
+    if (this.props.args['edit']) {
+      return (
+        <div className='App'>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <math-field 
+              ref={this.mf} 
+              onInput={(evt) => {
+                this.change_val(evt)
+              }}
+              style={{
+                '--ML__keyboard-toggle-visibility': 'hidden',
+                '--ML__hamburger-menu-visibility': 'hidden'
+              }}
+            >
+              {this.state.value}
+            </math-field>
+          </div>
+          <break/>
         </div>
-        <break/>
-      </div>
-    )
+      )
+    } else {
+      return (<div></div>)
+    }
   }
 }
 
